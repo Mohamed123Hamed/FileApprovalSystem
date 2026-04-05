@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">📂 File Approval System</h1>
+        <p class="lead text-muted">
+            Manage, track, and approve files بسهولة واحترافية
+        </p>
+
+        <a asp-controller="Files" asp-action="Index" class="btn btn-primary btn-lg px-4 me-2">
+            🚀 Go to Files
+        </a>
+
+        <a asp-controller="Files" asp-action="Dashboard" class="btn btn-outline-dark btn-lg px-4">
+            📊 Dashboard
+        </a>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row text-center">
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 p-3 h-100">
+                <h5>📁 File Management</h5>
+                <p class="text-muted">Create and organize files بسهولة</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 p-3 h-100">
+                <h5>✅ Approval Workflow</h5>
+                <p class="text-muted">Multi-step approval system</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 p-3 h-100">
+                <h5>🔍 Search System</h5>
+                <p class="text-muted">Filter and find files بسرعة</p>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-4">
+            <div class="card shadow border-0 p-3 h-100">
+                <h5>📊 Dashboard</h5>
+                <p class="text-muted">View stats and insights</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>

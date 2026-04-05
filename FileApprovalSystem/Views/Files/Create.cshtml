@@ -1,0 +1,59 @@
+﻿@model FileApprovalSystem.ViewModels.Files.CreateFileViewModel
+
+<div class="card shadow">
+
+    <div class="card-header bg-primary text-white">
+        Create File
+    </div>
+
+    <div class="card-body">
+
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label>File Number</label>
+                    <input asp-for="FileNumber" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Subject</label>
+                    <input asp-for="Subject" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Category</label>
+                    <select asp-for="CategoryId" class="form-control">
+                        <option value="">-- Select --</option>
+                        @foreach (var c in ViewBag.Categories)
+                        {
+                            <option value="@c.Id">@c.Name</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Date</label>
+                    <input asp-for="FileDate" type="date" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Responsible</label>
+                    <input asp-for="ResponsibleEmployee" class="form-control" />
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label>Attachment</label>
+                    <input asp-for="Attachment" type="file" class="form-control" />
+                </div>
+
+            </div>
+
+            <button class="btn btn-success">Save</button>
+
+        </form>
+
+    </div>
+
+</div>

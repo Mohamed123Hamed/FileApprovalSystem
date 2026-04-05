@@ -1,0 +1,207 @@
+﻿@model List<FileApprovalSystem.Models.FileRecord>
+@using FileApprovalSystem.Enums
+
+@{
+    var role = Context.Session.GetString("Role");
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
+
+<div class="card shadow border-0">
+
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">📁 Files List</h5>
+
+        <a asp-action="Create" class="btn btn-light btn-sm fw-bold">
+            + Create File
+        </a>
+    </div>
+
+    <div class="card-body">
+        <form method="get" class="row g-2 mb-3">
+
+            <div class="col-md-3">
+                <input name="FileNumber" value="@Context.Request.Query["FileNumber"]" class="form-control" placeholder="File Number" />
+            </div>
+
+            <div class="col-md-3">
+                <input name="Subject" value="@Context.Request.Query["Subject"]" class="form-control" placeholder="Subject" />
+            </div>
+
+            <div class="col-md-2">
+                <select name="CategoryId" class="form-control">
+                    <option value="">All Categories</option>
+                    @foreach (var c in ViewBag.Categories)
+                    {
+                        <option value="@c.Id"
+                                selected="@(Context.Request.Query["CategoryId"] == c.Id.ToString())">
+                            @c.Name
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <select name="Status" class="form-control">
+                    <option value="">All Status</option>
+                    <option value="2">Pending E2</option>
+                    <option value="3">Pending E3</option>
+                    <option value="4">Approved</option>
+                </select>
+            </div>
+
+            <div class="col-md-2 d-flex gap-2">
+                <button class="btn btn-primary w-100">Search</button>
+
+                <a href="/Files" class="btn btn-secondary w-100">Reset</a>
+            </div>
+
+        </form>
+        <table class="table table-hover align-middle text-center">
+
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>File Number</th>
+                    <th>Subject</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th style="width:150px;">Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td class="fw-bold">@item.FileNumber</td>
+                            <td>@item.Subject</td>
+                            <td>@item.Category?.Name</td>
+
+                            <td>
+                                @switch (item.Status)
+                                {
+                                    case FileStatus.PendingEmployee2:
+                                        <span class="badge bg-warning text-dark px-3 py-2">
+                                            Pending Employee 2
+                                        </span>
+                                        break;
+
+                                    case FileStatus.PendingEmployee3:
+                                        <span class="badge bg-info text-dark px-3 py-2">
+                                            Pending Employee 3
+                                        </span>
+                                        break;
+
+                                    case FileStatus.Approved:
+                                        <span class="badge bg-success px-3 py-2">
+                                            Approved
+                                        </span>
+                                        break;
+
+                                    default:
+                                        <span class="badge bg-secondary px-3 py-2">
+                                            @item.Status
+                                        </span>
+                                        break;
+                                }
+                            </td>
+
+                            <td>
+                                @if (
+                               (role == "Employee2" && item.Status == FileStatus.PendingEmployee2) ||
+                               (role == "Employee3" && item.Status == FileStatus.PendingEmployee3)
+                               )
+                                {
+                                    <a asp-action="Approve"
+                                       asp-route-id="@item.Id"
+                                       class="btn btn-success btn-sm px-3"
+                                       onclick="return confirm('Are you sure you want to approve this file?');">
+                                        ✔ Approve
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">-</span>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center text-muted py-4">
+                            🚫 No files found
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        @if (ViewBag.TotalPages > 1)
+        {
+            <nav>
+                <ul class="pagination justify-content-center">
+
+                    <!-- Previous -->
+                    <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link"
+                           href="/Files?page=@(ViewBag.CurrentPage - 1)
+                   &FileNumber=@Context.Request.Query["FileNumber"]
+                   &Subject=@Context.Request.Query["Subject"]
+                   &CategoryId=@Context.Request.Query["CategoryId"]
+                   &Status=@Context.Request.Query["Status"]">
+                            ⬅ Prev
+                        </a>
+                    </li>
+
+                    <!-- Numbers -->
+                    @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                            <a class="page-link"
+                               href="/Files?page=@i
+                       &FileNumber=@Context.Request.Query["FileNumber"]
+                       &Subject=@Context.Request.Query["Subject"]
+                       &CategoryId=@Context.Request.Query["CategoryId"]
+                       &Status=@Context.Request.Query["Status"]">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    <!-- Next -->
+                    <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                        <a class="page-link"
+                           href="/Files?page=@(ViewBag.CurrentPage + 1)
+                   &FileNumber=@Context.Request.Query["FileNumber"]
+                   &Subject=@Context.Request.Query["Subject"]
+                   &CategoryId=@Context.Request.Query["CategoryId"]
+                   &Status=@Context.Request.Query["Status"]">
+                            Next ➡
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+        }
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model dynamic
+
+<div class="container mt-4">
+
+    <h3 class="mb-4">📊 Dashboard</h3>
+
+    <div class="row text-center">
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-dark text-white p-3 shadow">
+                <h5>Total Files</h5>
+                <h2>@Model.Total</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-warning p-3 shadow">
+                <h5>Pending Employee 2</h5>
+                <h2>@Model.PendingE2</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-info p-3 shadow">
+                <h5>Pending Employee 3</h5>
+                <h2>@Model.PendingE3</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card bg-success text-white p-3 shadow">
+                <h5>Approved</h5>
+                <h2>@Model.Approved</h2>
+            </div>
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,61 @@
+﻿@model FileApprovalSystem.ViewModels.Account.LoginViewModel
+
+<div class="d-flex justify-content-center align-items-center vh-100" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+
+    <div class="card shadow-lg border-0 p-4" style="width:380px; border-radius:15px;">
+
+        <div class="text-center mb-4">
+            <h3 class="fw-bold">Welcome Back 👋</h3>
+            <p class="text-muted">Login to your account</p>
+        </div>
+
+        <form method="post">
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Username</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        👤
+                    </span>
+                    <input name="Username"
+                           class="form-control"
+                           placeholder="Enter username"
+                           required />
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light">
+                        🔒
+                    </span>
+                    <input name="Password"
+                           type="password"
+                           class="form-control"
+                           placeholder="Enter password"
+                           required />
+                </div>
+            </div>
+
+            <!-- Error -->
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger py-2 text-center">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <!-- Button -->
+            <button class="btn btn-primary w-100 fw-bold mt-2"
+                    style="border-radius:10px;">
+                🔐 Login
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
